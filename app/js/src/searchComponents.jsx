@@ -56,7 +56,7 @@ var SearchResultList = React.createClass({
           if(result.totalResults ==0 || result.totalResults ==undefined) {
               return (
                   <div key={result.imdbID} className="result">
-                    <img src={result.Poster !=null ? result.Poster: result.Poster.thumbnail}></img>
+                    <img src={result.Poster !=null ? result.Poster: null}></img>
                     <div className="content">
                       <h4>Movie Name: {result.Title}</h4>
                       <p >Short Description:{result.Plot}</p>
@@ -72,7 +72,7 @@ var SearchResultList = React.createClass({
              <div > {(()=>{
                  let container =[];
                  for(var i = 0; i < result.Search.length; ++i){
-                     container.push(<img src={result.Search[i].Poster !=null ? result.Search[i].Poster: result.Search[i].Poster.thumbnail}></img>)
+                     container.push(<img src={result.Search[i].Poster !=null ? result.Search[i].Poster: null}></img>)
                      container.push(<h4 key={i}>Movie Name: {result.Search[i].Title}</h4>)
                      container.push(<p>Year:{result.Search[i].Year}</p>)
                      container.push(<div className="content"></div>)
