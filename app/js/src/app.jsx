@@ -1,48 +1,53 @@
-
 var App = React.createClass({
-  getInitialState: function() {
-    return {
-      result: []
-    };
-  },
-  render: function() {
-    return (
-      <div>
-        <SearchInput onClick={this.handleResult} />
-        <SearchResultList results={this.state.result} />
-      </div>
-    );
-  },
-  /** searchInput-component */
-  handleResult: function(term) {
+    getInitialState: function() {
+        return {
+            result: []
+        };
+    },
+    render: function() {
+        return (
+            <div>
+                <SearchInput onClick={this.handleResult} />
+                <SearchResultList results={this.state.result} />
+            </div>
+        );
+
+    },
+    /** searchInput-component */
+    handleResult: function(term) {
 
 
-      var updateResult = function (response, textStatus, jqXHR) {
+        var updateResult = function (response, textStatus, jqXHR) {
 
-          this.setState({
-              result: (response instanceof Array) ? response : [response]
-          });
-      }.bind(this);
+            if(response.Response == "False")
+                alert(response.Error + "  Please select appropriate movie...");
 
-       var typeRequestURL ;
-      if (term != null) {
-          if (hasNumbers(term))
-                  typeRequestURL ='https://www.omdbapi.com/?i=' + term + '&plot=full&r=json&tomatoes=true'
-          else
-                  typeRequestURL= 'https://www.omdbapi.com/?s='+term/** direct api call to fetch list */
-      }
-      else
-          typeRequestURL = 'https://www.omdbapi.com/?s=transformer'
-          /** direct api call to fetch list */
+            this.setState({
+                result: (response instanceof Array) ? response : [response]
+            });
+        }.bind(this);
 
-      console.log(typeRequestURL);
-      $.ajax({
-          method: 'GET',
-          url: typeRequestURL,
-          success: updateResult
-      });
+        var typeRequestURL = null;
+        if (term != null) {
+            if (hasNumbers(term))
+                typeRequestURL ='https://www.omdbapi.com/?i=' + term + '&plot=full&r=json'
+            else
+                typeRequestURL= 'https://www.omdbapi.com/?s='+term/** api call to fetch list */
+        }
+        else
+            typeRequestURL = 'https://www.omdbapi.com/?i=tt0139654'
+        /** by default  api call to fetch one specific  movie details on ComponentDidMount */
 
-  }
+        $.ajax({
+            method: 'GET',
+            url: typeRequestURL,
+            success: updateResult
+        });
+
+    },
+    componentDidMount: function() {
+         this.handleResult();
+    }
 
 });
 
