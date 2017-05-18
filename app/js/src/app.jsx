@@ -24,30 +24,23 @@ var App = React.createClass({
           });
       }.bind(this);
 
+       var typeRequestURL ;
       if (term != null) {
-          if (hasNumbers(term)) {
-              $.ajax({
-                  method: 'GET',
-                  url: 'https://www.omdbapi.com/?i=' + term + '&plot=full&r=json&tomatoes=true',
-                  success: updateResult
-              });
-          }
-          else {
-              $.ajax({
-                  method: 'GET',
-                  url: 'https://www.omdbapi.com/?s='+term,/** direct api call to fetch list */
-                  success: updateResult
-              });
-          }
+          if (hasNumbers(term))
+                  typeRequestURL ='https://www.omdbapi.com/?i=' + term + '&plot=full&r=json&tomatoes=true'
+          else
+                  typeRequestURL= 'https://www.omdbapi.com/?s='+term/** direct api call to fetch list */
       }
       else
-      {
-          $.ajax({
-              method: 'GET',
-          url: 'https://www.omdbapi.com/?s=transformer',/** direct api call to fetch list */
+          typeRequestURL = 'https://www.omdbapi.com/?s=transformer'
+          /** direct api call to fetch list */
+
+      console.log(typeRequestURL);
+      $.ajax({
+          method: 'GET',
+          url: typeRequestURL,
           success: updateResult
-          });
-      }
+      });
 
   }
 
